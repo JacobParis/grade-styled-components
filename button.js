@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Theme from "./theme";
 
 const ButtonBase = styled.button`
+    font-family: Roboto, sans-serif;
+    font-weight: 300;
     cursor: pointer;
     text-transform: uppercase;
     border-radius: ${({isRound, borderRadius}) => isRound
@@ -25,7 +27,7 @@ const ButtonBase = styled.button`
     };
     background: ${({color, isGhost}) => isGhost ? "none" : color};
     border: 1px solid ${({color, isGhost, isDark}) => isGhost 
-        ? color 
+        ? `${color}33`
         : isDark
             ? Theme.Shades.Lighter
             : Theme.Shades.White
@@ -40,6 +42,12 @@ const ButtonBase = styled.button`
             : shadeColor(color, 15)
         };
         color: ${Theme.Shades.White};
+    }
+    &:focus {
+        border: 1px solid ${({color, isDark}) => isDark 
+            ? Theme.Colors.Blue
+            : color
+        };
     }
     &:active {
         background: ${({color, isDark}) => isDark 
