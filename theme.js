@@ -18,6 +18,6 @@ export default {
         Light: "#adb9ca",
         Lighter: "#cad3df",
         Lightest: "#eceff4",
-        White: "#fffffff5"
+        White: "#f5f7f9"
     }
 };
