@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Theme from "./theme";
 
 const ButtonBase = styled.button`
+    cursor: pointer;
     text-transform: uppercase;
     border-radius: ${({isRound, borderRadius}) => isRound
         ? borderRadius
