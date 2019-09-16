@@ -30,7 +30,7 @@ const ButtonBase = styled.button`
         ? `${color}33`
         : isDark
             ? Theme.Shades.Lighter
-            : Theme.Shades.White
+            : color
     };
     &:hover {
         background: ${({color, isDark}) => isDark 
@@ -48,6 +48,7 @@ const ButtonBase = styled.button`
             ? Theme.Colors.Blue
             : color
         };
+
     }
     &:active {
         background: ${({color, isDark}) => isDark 
