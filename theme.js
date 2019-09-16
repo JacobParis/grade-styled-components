@@ -1,6 +1,6 @@
 export default {
     Layout: {
-        Corners: "0.25rem"
+        Corners: "0.5rem"
     },
     Colors: {
         Blue: "#0082d5",
