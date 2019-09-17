@@ -36,11 +36,11 @@ export const InputBase = styled.input.attrs({
     transition: all 0.3s ease-out;
     &::placeholder {
         user-select: none;
-        color: ${({disabled}) => disabled
+        color: ${({disabled, borderColor}) => disabled
             ? Theme.Shades.Lighter
             : Theme.Shades.Medium
         };
-    }
+    } 
     &:hover:not(:focus) {
         border: 1px solid ${({disabled}) => disabled
             ? Theme.Shades.Lightest
@@ -50,6 +50,9 @@ export const InputBase = styled.input.attrs({
     &:focus {
         background: white;
         border: 1px solid ${Theme.Colors.Blue};
+    }
+    & + span {
+        color: ${({borderColor}) => borderColor};
     }
 `;
 
