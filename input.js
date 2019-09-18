@@ -16,7 +16,9 @@ export const InputBase = styled.input.attrs({
     };
     font-size: 1rem;
     padding: 0.8rem 1rem;
-    min-width: 16rem;
+    width: 100%;
+    min-height: 3rem;
+    box-sizing: border-box;
     border-radius: 
         ${Theme.Layout.Corners}
         ${({hasButton}) => hasButton ? 0 : Theme.Layout.Corners}
@@ -30,15 +32,15 @@ export const InputBase = styled.input.attrs({
     border-right-width: ${({hasButton}) => hasButton ? "0 !important" : "1px"};
     background: ${({disabled}) => disabled 
         ? Theme.Shades.White
-        : Theme.Shades.Lightest
+        : Theme.Shades.White
     };
     outline: none;
     transition: all 0.3s ease-out;
     &::placeholder {
         user-select: none;
-        color: ${({disabled, borderColor}) => disabled
+        color: ${({disabled, labelColor}) => disabled
             ? Theme.Shades.Lighter
-            : Theme.Shades.Medium
+            : Theme.Shades.Light
         };
     } 
     &:hover:not(:focus) {
@@ -52,7 +54,7 @@ export const InputBase = styled.input.attrs({
         border: 1px solid ${Theme.Colors.Blue};
     }
     & + span {
-        color: ${({borderColor}) => borderColor};
+        color: ${({labelColor}) => labelColor};
     }
 `;
 
@@ -62,12 +64,16 @@ const Label = styled.span`
     font-family: 'Roboto';
     font-weight: normal;
     transition: all 0.3s ease-out;
+    min-width: 16rem;
+
 `;
 
 const InputContainer = styled.label`
     position: relative;
-    display: inline-block;
+    display: block;
     margin: 2rem 1rem 1rem 1rem;
+    vertical-align: top;
+
     ${({isRequired}) => isRequired && `&::after {
         content: '*';
         position: absolute;
@@ -77,7 +83,7 @@ const InputContainer = styled.label`
         font-size: 1.2rem;
         color: ${Theme.Shades.Medium};
     }`}
-    ${InputBase}:placeholder-shown + ${Label} {
+    ${InputBase}[placeholder]:not([placeholder=""]):placeholder-shown + ${Label} {
         left: 0;
         top: 0;
         padding: 0.8rem 1rem;
@@ -97,18 +103,22 @@ const InputContainer = styled.label`
     }
 `;
 
-export function TextInput({children, ...props}) {
+export function TextInput({children, multiline, ...props}) {
     const borderColor = getDefaultBorderColorFromProps(props);
+    const labelColor = getLabelColorFromProps(props);
+    const placeholder = getPlaceholderFromProps(props);
     const button = getButtonFromChildren(children);
-
     const isRequired = "required" in props;
+
     return (
         <InputContainer isRequired={isRequired}>
-            <InputBase 
-                borderColor={borderColor}
-                placeholder={props.label}
-                hasButton={button}
+            <InputBase
                 {...props} 
+                as={multiline && "textarea"}
+                labelColor={labelColor}
+                borderColor={borderColor}
+                placeholder={placeholder}
+                hasButton={button}
             />
             <Label>{props.label}</Label>
             {button ? <Button {...button.props} /> : null}
@@ -124,10 +134,28 @@ function getButtonFromChildren(children) {
     return childs.find(child => child.type === Button);
 }
 
+function getPlaceholderFromProps(props) {
+    if ("placeholder" in props) {
+        if (props.placeholder && props.placeholder.length) {
+            return props.placeholder;
+        }
+        return props.label;
+    }
+
+    return null;
+}
 function getDefaultBorderColorFromProps(props) {
     if ("success" in props) return Theme.Colors.Green;
     if ("warning" in props) return Theme.Colors.Orange;
     if ("error" in props) return Theme.Colors.Red;
 
     return Theme.Shades.Lighter;
+}
+
+function getLabelColorFromProps(props) {
+    if ("success" in props) return Theme.Colors.Green;
+    if ("warning" in props) return Theme.Colors.Orange;
+    if ("error" in props) return Theme.Colors.Red;
+
+    return Theme.Shades.Dark;
 }
