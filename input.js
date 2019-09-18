@@ -73,7 +73,7 @@ const InputContainer = styled.label`
     display: block;
     margin: 2rem 1rem 1rem 1rem;
     vertical-align: top;
-
+    flex: 1 0 auto;
     ${({isRequired}) => isRequired && `&::after {
         content: '*';
         position: absolute;
