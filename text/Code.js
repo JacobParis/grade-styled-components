@@ -12,6 +12,7 @@ const CodeBlock = styled.pre`
     ) 1 100%;
     margin-left: 2rem;
     padding: 1rem 1.5rem;
+    width: 100%;
 `;
 
 const StringStyle = styled.span`
