@@ -8,8 +8,10 @@ export default styled.div`
     flex-wrap: wrap;
     > * {
         flex: 1 0 20rem;
-        display: flex;
-        flex-direction: column;
+        display: ${({rigid}) => rigid ? "initial" : "flex"};
+        flex-direction: ${({columns}) => columns ? "column" : "row"};
+        flex-wrap: wrap;
+        justify-content: space-evenly;
     }
 `;
 
