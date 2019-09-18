@@ -8,10 +8,14 @@ import Theme from "./theme";
 const SectionContainer = styled.section`
     background: white;
     margin-top: 1rem;
+    max-width: 1000px;
     @media screen and (min-width: 400px) {
         margin-left: 1rem;
         margin-right: 1rem;
         border-radius: ${Theme.Layout.Corners};
+    }
+    @media screen and (min-width: 1000px) {
+        margin: 1rem auto;
     }
 `;
 
