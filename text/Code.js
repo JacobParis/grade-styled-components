@@ -41,8 +41,7 @@ const OperatorStyle = styled.span`
 
 export default function({text}) {
     const formattedCode = formatCode(cleanCode(text));
-    console.log("Formatted");
-    console.log(formattedCode);
+
     return <CodeBlock>{formattedCode}</CodeBlock>;
 }
 
@@ -59,8 +58,6 @@ function cleanCode(input) {
 }
 
 function formatCode(input) {
-    console.log("Format", input);
-
     const patterns = [
         {
             label: "Strings bound in quotes",
@@ -69,20 +66,22 @@ function formatCode(input) {
         },
         {
             label: "Strings between tags",
-            match: /(?<=\>\s*)([^\<\>\r\n]+)(?=\s*\<)/g,
-            matchBehind: /\/?\>/,
-            matchAhead: /\<\/?/,
+            match: /([^\<\>\/\r\n]+)/g,
+            matchBehind: /\/?\>$/g,
+            matchAhead: /^\<\/?/g,
             Component: TextStyle
         },
-        {
-            match: /(?<=\<\s*)([\w]+)/g,
-            matchBehind: /\<\/?/,
+        {   
+            label: "Open Tags",
+            match: /([\w]+)/g,
+            matchBehind: /\<\/?$/g,
             Component: TagStyle
         },
         {
-            match: /(?<=\<\/\s*)([\w]+)(?=\s*\/?\>)/g,
-            matchBehind: /\<\/?/,
-            matchAhead: /\/?\>/,
+            label: "Close Tags",
+            match: /([\w]+)/g,
+            matchBehind: /\<\/?$/g,
+            matchAhead: /^\/?\>/g,
             Component: TagStyle
         },
         {
@@ -99,38 +98,39 @@ function formatCode(input) {
         }
     ];
 
-    return patterns.reduce((acc, {Component, ...pattern}) => {
-        // Skip disabled patterns
-        if (pattern.disable) return acc;
+const INPUT = [input];
+return patterns.reduce((acc, {Component, ...pattern}) => {
+    // Skip disabled patterns
+    if (pattern.disable) return acc;
 
-        const iteration = acc.reduce((tokens, token) => {
-            // Skip this token if it's already a component
-            if(typeof token !== "string") return tokens.concat([token]);
+    const iteration = acc.reduce((tokens, token, index) => {
+        // Skip this token if it's already a component
+        if(typeof token !== "string") return tokens.concat([token]);
+        const subTokens = token.split(pattern.match).filter(Boolean);
 
-            const subTokens = token.split(pattern.match);
+        const processTokens = (item, i) => {
+            if (typeof item !== "string") return item;
+            
+            const matchPattern = (testPattern, offset = 0) => {
+                if (!testPattern) return true;
+                const testItem = subTokens[i + offset] || acc[index + offset];
+                if (typeof testItem !== "string") return false;
 
-            const processTokens = (item, i) => {
-                if (typeof item !== "string") return item;
-                
-                const matchPattern = (testPattern, offset = 0) => {
-                    const testItem = subTokens[i + offset];
+                return testItem && testItem.match(testPattern);
+            }
 
-                    return testItem && testPattern && testItem.match(testPattern);
-                }
+            const conditions = [
+                matchPattern(pattern.match),
+                matchPattern(pattern.matchAhead, 1),
+                matchPattern(pattern.matchBehind, -1)
+            ];
+            return conditions.every(Boolean) 
+                ? <Component>{item}</Component>
+                : item;
+        };
 
-                const conditions = [
-                    matchPattern(pattern.match),
-                    matchPattern(pattern.matchAhead, 1),
-                    matchPattern(pattern.matchBehind, -1)
-                ];
-                
-                return conditions.some(Boolean) 
-                    ? <Component>{item}</Component>
-                    : item;
-            };
-
-            return tokens.concat(subTokens.map(processTokens));
-        }, []);
-        return iteration;
-    }, [input]);
+        return tokens.concat(subTokens.map(processTokens));
+    }, []);
+    return iteration;
+}, INPUT);
 }
