@@ -65,8 +65,7 @@ const Label = styled.span`
         left: 0;
         width: 1.7rem;
         height: 1.7rem;
-        background: ${Theme.Shades.Darkest};
-        color: white;
+        color: ${Theme.Shades.Darkest};
         display: flex;
         justify-content: center;
         align-items: center;

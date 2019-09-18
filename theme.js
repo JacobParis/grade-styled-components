@@ -8,7 +8,14 @@ export default {
         Olive: "#9DBF16",
         Orange: "#FF9948",
         Red: "#D2335C",
-        Purple: "#A93ABA"
+        Purple: "#A93ABA",
+        Code: {
+            Text: "#456585",
+            String: "#86b300",
+            Tag: "#55b4d4",
+            Attribute: "#f2ae49",
+            Operator: "#fd9366"
+        }
     },
     Shades: {
         Darkest: "#374355",
@@ -18,6 +25,6 @@ export default {
         Light: "#adb9ca",
         Lighter: "#cad3df",
         Lightest: "#eceff4",
-        White: "#f5f7f9"
+        White: "#fafbfc"
     }
 };
