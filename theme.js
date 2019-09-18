@@ -10,7 +10,7 @@ export default {
         Red: "#D2335C",
         Purple: "#A93ABA",
         Code: {
-            Text: "#456585",
+            Text: "#4565A5",
             String: "#86b300",
             Tag: "#55b4d4",
             Attribute: "#f2ae49",
