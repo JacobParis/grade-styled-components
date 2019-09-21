@@ -12,7 +12,7 @@ const CodeBlock = styled.pre`
     ) 1 100%;
     margin-left: 2rem;
     padding: 1rem 1.5rem;
-    width: 100%;
+    flex: 1 0 auto;
 `;
 
 const StringStyle = styled.span`
@@ -98,39 +98,39 @@ function formatCode(input) {
         }
     ];
 
-const INPUT = [input];
-return patterns.reduce((acc, {Component, ...pattern}) => {
-    // Skip disabled patterns
-    if (pattern.disable) return acc;
+    return patterns.reduce((acc, {Component, ...pattern}) => {
+        // Skip disabled patterns
+        if (pattern.disable) return acc;
 
-    const iteration = acc.reduce((tokens, token, index) => {
-        // Skip this token if it's already a component
-        if(typeof token !== "string") return tokens.concat([token]);
-        const subTokens = token.split(pattern.match).filter(Boolean);
+        const iteration = acc.reduce((tokens, token, index) => {
+            // Skip this token if it's already a component
+            if(typeof token !== "string") return tokens.concat([token]);
+            const subTokens = token.split(pattern.match).filter(Boolean);
 
-        const processTokens = (item, i) => {
-            if (typeof item !== "string") return item;
-            
-            const matchPattern = (testPattern, offset = 0) => {
-                if (!testPattern) return true;
-                const testItem = subTokens[i + offset] || acc[index + offset];
-                if (typeof testItem !== "string") return false;
+            const processTokens = (item, i) => {
+                if (typeof item !== "string") return item;
+                
+                const matchPattern = (testPattern, offset = 0) => {
+                    if (!testPattern) return true;
+                    const testItem = subTokens[i + offset] || acc[index + offset];
+                    if (typeof testItem !== "string") return false;
 
-                return testItem && testItem.match(testPattern);
-            }
+                    return testItem && testItem.match(testPattern);
+                }
 
-            const conditions = [
-                matchPattern(pattern.match),
-                matchPattern(pattern.matchAhead, 1),
-                matchPattern(pattern.matchBehind, -1)
-            ];
-            return conditions.every(Boolean) 
-                ? <Component>{item}</Component>
-                : item;
-        };
+                const conditions = [
+                    matchPattern(pattern.match),
+                    matchPattern(pattern.matchAhead, 1),
+                    matchPattern(pattern.matchBehind, -1)
+                ];
 
-        return tokens.concat(subTokens.map(processTokens));
-    }, []);
-    return iteration;
-}, INPUT);
+                return conditions.every(Boolean) 
+                    ? <Component>{item}</Component>
+                    : item;
+            };
+
+            return tokens.concat(subTokens.map(processTokens));
+        }, []);
+        return iteration;
+    }, [input]);
 }

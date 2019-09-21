@@ -65,7 +65,6 @@ const Label = styled.span`
     font-weight: normal;
     transition: all 0.3s ease-out;
     min-width: 16rem;
-
 `;
 
 const InputContainer = styled.label`
@@ -89,6 +88,7 @@ const InputContainer = styled.label`
         padding: 0.8rem 1rem;
         font-size: 1rem;
         opacity: 0;
+        pointer-events: none;
     }
     & ${InputBase} + ${Label} {
         left: 0;
@@ -144,6 +144,7 @@ function getPlaceholderFromProps(props) {
 
     return null;
 }
+
 function getDefaultBorderColorFromProps(props) {
     if ("success" in props) return Theme.Colors.Green;
     if ("warning" in props) return Theme.Colors.Orange;

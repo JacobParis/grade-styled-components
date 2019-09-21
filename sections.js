@@ -7,7 +7,7 @@ import Theme from "./theme";
 
 const SectionContainer = styled.section`
     background: white;
-    margin-top: 1rem;
+    margin-top: 2rem;
     max-width: 1000px;
     @media screen and (min-width: 400px) {
         margin-left: 1rem;
@@ -19,7 +19,7 @@ const SectionContainer = styled.section`
     }
 `;
 
-const SectionHeader = styled.div`
+const SectionHeader = styled.header`
     background: ${Theme.Shades.Lightest};
     padding: 1.5rem;
     border-radius: ${Theme.Layout.Corners} ${Theme.Layout.Corners} 0 0;
@@ -30,9 +30,16 @@ const SectionHeader = styled.div`
     }
 `;
 
-const SectionContent = styled.section`
+const SectionContent = styled.div`
+    padding: 2rem;
+`;
+
+export const Footing = styled.footer`
+    display: flex;
+    justify-content: flex-end;
     padding: 1rem;
 `;
+
 
 export function Heading({children}) {
 
