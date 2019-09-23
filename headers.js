@@ -11,8 +11,7 @@ export const Header = styled.div`
     flex-direction: column;
     margin: 0 0 -4rem 0;
     border-radius: ${({float}) => float ? Theme.Layout.Corners : "0"};
-    max-height: 80vh;
-    height: 700px;
+    height: 600px;
     position: relative;
     z-index: 0;
     &::before {

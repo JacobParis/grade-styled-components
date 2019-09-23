@@ -8,13 +8,17 @@ import Theme from "./theme";
 export const Tiles = styled.div`
     display: grid;
     grid-auto-flow: dense;
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
     grid-auto-rows: 14rem;
-    grid-gap: 2rem;
     width: 100%;
-    margin: 0 1rem;
-    @media screen and (min-width: 1000px) {
-        max-width: 1000px;
+    grid-gap: 1rem;
+    box-sizing: border-box;
+    @media screen and (min-width: 400px) {
+        grid-gap: 2rem;
+        padding: 1rem;
+    }
+    @media screen and (min-width: 55rem) {
+        max-width: 55rem;
         margin: 0 auto;
     }
 `;
@@ -38,15 +42,7 @@ export const BaseTileImage = styled.div`
     grid-column: auto / span ${({columns}) => columns};
     grid-row: auto / span ${({rows}) => rows};
     border-radius: ${getCornersFromProps};
-    &:hover {
-        background-size: 100%;
-        &::before {
-            opacity: 0.8;
-        }
-        & span {
-            transform: translateY(-5%) scale(1.1);
-        }
-    }
+    
     &::before {
         content: '';
         position: absolute;
@@ -75,19 +71,35 @@ const TileImageText = styled.span`
         top: 0;
         bottom: 0;
     color: ${getTextColorFromProps};
-    font-size: 3rem;
     transition:  transform 1s;
+    font-size: 2.5rem;
+    @media screen and (min-width: 400px) {
+        font-size: 2.5rem;
+    }
 `;
 
 const BaseTile = styled.div`
     display: grid;
-    grid-template-columns: minmax(12rem, 1fr) ${({columns}) => columns > 1 && "auto"};
+    grid-template-columns: minmax(10rem, 1fr) ${({columns}) => columns > 1 && "auto"};
     grid-template-rows: minmax(12rem, 1fr) ${({rows}) => rows > 1 && "auto"}; 
-    grid-column: auto / span ${({columns}) => columns};
-    grid-row: auto / span ${({rows}) => rows};
+    grid-column: auto / span ${({rows, columns}) => (rows + columns) > 2 ? 2 : columns};
+    grid-row: auto / span ${({rows, columns}) => (rows + columns) > 2 ? 2 : rows};
+    @media screen and (min-width: 55rem) {
+        grid-column: auto / span ${({columns}) => columns};
+        grid-row: auto / span ${({rows}) => rows};
+    }
     background: white;
     border-radius: ${Theme.Layout.Corners};
     position: relative;
+    &:hover ${BaseTileImage} {
+        background-size: 100%;
+        &::before {
+            opacity: 0.8;
+        }
+        & span {
+            transform: translateY(-5%) scale(1.1);
+        }
+    }
 `;
 
 const TileContent = styled.div`
