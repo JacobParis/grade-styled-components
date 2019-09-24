@@ -10,7 +10,7 @@ const CodeBlock = styled.pre`
       ${Theme.Colors.Blue}, 
       ${Theme.Colors.Purple}
     ) 1 100%;
-    margin-left: 2rem;
+    margin: 0;
     padding: 1rem 1.5rem;
     flex: 1 0 auto;
 `;
@@ -66,7 +66,7 @@ function formatCode(input) {
         },
         {
             label: "Strings between tags",
-            match: /([^\<\>\/\r\n]+)/g,
+            match: /([^(<\/)\<\>(\/>)]+)/g,
             matchBehind: /\/?\>$/g,
             matchAhead: /^\<\/?/g,
             Component: TextStyle
@@ -84,15 +84,15 @@ function formatCode(input) {
             matchAhead: /^\/?\>/g,
             Component: TagStyle
         },
-        {
+        {   
             match: /([\w-]+)/g,
             Component: AttributeStyle
         },
-        {
+        {   
             match: /([\<\/\>]+)/g,
             Component: TagBracketsStyle
         },
-        {
+        {   
             match: /([\=]+)/g,
             Component: OperatorStyle
         }
@@ -131,6 +131,7 @@ function formatCode(input) {
 
             return tokens.concat(subTokens.map(processTokens));
         }, []);
+        console.log(iteration);
         return iteration;
     }, [input]);
 }

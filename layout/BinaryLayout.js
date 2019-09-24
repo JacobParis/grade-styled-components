@@ -12,6 +12,7 @@ export default styled.div`
         flex-direction: ${({columns}) => columns ? "column" : "row"};
         flex-wrap: wrap;
         justify-content: space-evenly;
+        padding: 1rem;
     }
 `;
 

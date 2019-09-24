@@ -20,7 +20,7 @@ export default {
     Shades: {
         Darkest: "#374355",
         Darker: "#3d4d35",
-        Dark: "#54657e",
+        Dark: "#49556E",
         Medium: "#8493a8",
         Light: "#adb9ca",
         Lighter: "#cad3df",
