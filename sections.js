@@ -32,6 +32,10 @@ const SectionHeader = styled.header`
 
 const SectionContent = styled.div`
     padding: 2rem;
+    ${({flex}) => flex && `
+        display: flex;
+        justify-content: space-between;
+    `}
 `;
 
 export const Footing = styled.footer`
@@ -50,18 +54,31 @@ export function Heading({children}) {
     )
 }
 
-export function Section({children}) {
+export function Section({children, flex, ...props}) {
     console.log(children);
-    const Header = children.find(child => child.type === Heading);
-    const NonHeaderChildren = children.filter(child => child.type !== Heading);
+    
+    if (Array.isArray(children)) {
+        const Header = children.find(child => child.type === Heading);
+        const NonHeaderChildren = children.filter(child => child.type !== Heading);
 
-    return (
-        <SectionContainer>
-            {Header}
-            <SectionContent>
-                {NonHeaderChildren}
-            </SectionContent>
-        </SectionContainer>
-    )
+        return (
+            <SectionContainer>
+                {Header}
+                <SectionContent flex={flex}>
+                    {NonHeaderChildren}
+                </SectionContent>
+            </SectionContainer>
+        );
+    } else {
+        return (
+            <SectionContainer>
+                <SectionContent flex={flex}>
+                    {children}
+                </SectionContent>
+            </SectionContainer>
+        )
+    }
+
+    
 }
 
