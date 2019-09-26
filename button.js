@@ -6,7 +6,10 @@ import Theme from "./theme";
 const ButtonBase = styled.button`
     font-family: Roboto, sans-serif;
     font-weight: 300;
-    cursor: pointer;
+    cursor: ${({disabled}) => disabled
+            ? "default"
+            : "pointer"
+    };
     text-transform: uppercase;
     border-radius: ${({isRound, borderRadius}) => isRound
         ? borderRadius
@@ -19,29 +22,40 @@ const ButtonBase = styled.button`
     outline: none;
     font-size: ${({fontSize}) => fontSize};
     transition: all 0.3s ease-out;
-    color: ${({color, isGhost, isDark}) => isGhost 
-        ? color 
-        : isDark
-            ? Theme.Shades.Medium
-            : Theme.Shades.White
+    color: ${({color, disabled, isGhost, isDark}) =>  disabled
+        ? Theme.Shades.Lightest
+        : isGhost 
+            ? color 
+            : isDark
+                ? Theme.Shades.Medium
+                : Theme.Shades.White
     };
     background: ${({color, isGhost}) => isGhost ? "none" : color};
-    border: 1px solid ${({color, isGhost, isDark}) => isGhost 
-        ? `${color}33`
-        : isDark
-            ? Theme.Shades.Lighter
-            : color
+    border: 1px solid ${({color, disabled, isGhost, isDark}) =>  disabled
+            ? Theme.Shades.Lightest
+            : isGhost 
+                ? `${color}33`
+                : isDark
+                    ? Theme.Shades.Lighter
+                    : color
     };
     &:hover {
-        background: ${({color, isDark}) => isDark 
-            ? Theme.Shades.Medium
-            : shadeColor(color, 15)
+        background: ${({color, disabled, isDark}) =>  disabled
+            ? "none"
+            : isDark 
+                ? Theme.Shades.Medium
+                : shadeColor(color, 15)
         };
-        border: 1px solid ${({color, isDark}) => isDark 
-            ? Theme.Shades.Medium
-            : shadeColor(color, 15)
+        border: 1px solid ${({color, disabled, isDark}) =>  disabled
+            ? Theme.Shades.Lightest
+            : isDark 
+                ? Theme.Shades.Medium
+                : shadeColor(color, 15)
         };
-        color: ${Theme.Shades.White};
+        color: ${({color, disabled, isDark}) => disabled
+            ? Theme.Shades.Lightest
+            : Theme.Shades.White
+        };
     }
     &:focus {
         border: 1px solid ${({color, isDark}) => isDark 
@@ -51,20 +65,26 @@ const ButtonBase = styled.button`
 
     }
     &:active {
-        background: ${({color, isDark}) => isDark 
-            ? Theme.Shades.Dark
-            : shadeColor(color, -15)
+        background: ${({color, disabled, isDark}) => disabled
+            ? Theme.Shades.White
+            : isDark 
+                ? Theme.Shades.Dark
+                : shadeColor(color, -15)
         };
-        border: 1px solid ${({color, isDark}) => isDark 
-            ? Theme.Shades.Dark
-            : shadeColor(color, -15)
+        border: 1px solid ${({color, disabled, isDark}) =>  disabled
+            ? Theme.Shades.Lightest
+            : isDark 
+                ? Theme.Shades.Dark
+                : shadeColor(color, -15)
         };
-        border-top: 1px solid ${({color, isDark}) => isDark 
-            ? shadeColor(Theme.Shades.Dark, -35)
-            : shadeColor(color, -35)
+        border-top: 1px solid ${({color, disabled, isDark}) =>  disabled
+            ? Theme.Shades.Lightest
+            : isDark 
+                ? shadeColor(Theme.Shades.Dark, -35)
+                : shadeColor(color, -35)
         };
         color: ${Theme.Shades.White};
-    }
+    } 
 `;
 
 export function Button(props) {
@@ -77,6 +97,7 @@ export function Button(props) {
 
     return (
         <ButtonBase 
+            {...props}
             color={color}
             height={height}
             fontSize={fontSize}
