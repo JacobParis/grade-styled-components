@@ -4,13 +4,17 @@ import styled from "styled-components";
 import Theme from "../theme";
 
 export const MainContainer = styled.div`
-    margin-left: 20rem;
+    @media screen and (min-width: 800px) {
+        margin-left: 20rem;
+    }
     margin-right: 1rem;
     padding-top: 4rem;
-    margin-bottom:
 `;
 
 export const BaseSidebar = styled.div`
+    @media screen and (max-width: 799px) {
+        display: none;
+    }
     float: left;
     position: sticky;
     left: 1rem;
