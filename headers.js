@@ -24,19 +24,17 @@ export const Header = styled.div`
         background-image: ${getGradientFromProps};
         background-color: ${getColorFromProps};
         border-radius: ${({float}) => float ? Theme.Layout.Corners : "0"};
-        opacity: 0.6;
         z-index: -1;
     }
 `;
 
 export const HeaderContent = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex: 1 1 auto;
     text-align: center;
     padding: 1rem 4rem 4rem 4rem;
-}
 `;
 
 export const HeaderTitle = styled.h1`
@@ -54,7 +52,6 @@ export const HeaderDescription = styled.p`
     text-align: center;
 `;
 
-
 function getColorFromProps(props) {
     if ("red" in props) return Theme.Colors.Red;
     if ("orange" in props) return Theme.Colors.Orange;
@@ -62,17 +59,21 @@ function getColorFromProps(props) {
     if ("green" in props) return Theme.Colors.Green;
     if ("blue" in props) return Theme.Colors.Blue;
     if ("purple" in props) return Theme.Colors.Purple;
+    if ("black" in props) return Theme.Shades.Darkest;
+    if ("white" in props) return Theme.Shades.White;
 
-    return "#ffffff";
+    return "transparent";
 }
 
 function getGradientFromProps(props) {
-    if ("to-red" in props) return `linear-gradient(to right, transparent, ${Theme.Colors.Red})`;
-    if ("to-orange" in props) return `linear-gradient(to right, transparent, ${Theme.Colors.Orange})`;
-    if ("to-olive" in props) return `linear-gradient(to right, transparent, ${Theme.Colors.Olive})`;
-    if ("to-green" in props) return `linear-gradient(to right, transparent, ${Theme.Colors.Green})`;
-    if ("to-blue" in props) return `linear-gradient(to right, transparent, ${Theme.Colors.Blue})`;
-    if ("to-purple" in props) return `linear-gradient(to right, transparent, ${Theme.Colors.Purple})`;
+    if ("to-red" in props) return `linear-gradient(0deg, transparent, ${Theme.Colors.Red})`;
+    if ("to-orange" in props) return `linear-gradient(0deg, transparent, ${Theme.Colors.Orange})`;
+    if ("to-olive" in props) return `linear-gradient(0deg, transparent, ${Theme.Colors.Olive})`;
+    if ("to-green" in props) return `linear-gradient(0deg, transparent, ${Theme.Colors.Green})`;
+    if ("to-blue" in props) return `linear-gradient(0deg, transparent, ${Theme.Colors.Blue})`;
+    if ("to-purple" in props) return `linear-gradient(0deg, transparent, ${Theme.Colors.Purple})`;
+    if ("to-black" in props) return `linear-gradient(0deg, transparent, #000)`;
+    if ("to-blerg" in props) return `linear-gradient(0deg, transparent, #B02)`;
 
     return "none";
 }

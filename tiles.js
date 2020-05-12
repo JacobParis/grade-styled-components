@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Theme from "./theme";
+import GifPlayer from "react-gif-player"
 
 export const Tiles = styled.div`
     display: grid;
@@ -32,7 +33,7 @@ export const BaseTileImage = styled.div`
     position: relative;
     background-image: ${getImageFromProps};
     background-color: ${getColorFromProps};
-    background-size: 120%;    
+    background-size: 120%;
     background-position: top center;
     background-repeat: no-repeat;
     transition: background-size 1s ease-in-out;
@@ -42,7 +43,7 @@ export const BaseTileImage = styled.div`
     grid-column: auto / span ${({columns}) => columns};
     grid-row: auto / span ${({rows}) => rows};
     border-radius: ${getCornersFromProps};
-    
+
     &::before {
         content: '';
         position: absolute;
@@ -81,7 +82,7 @@ const TileImageText = styled.span`
 const BaseTile = styled.div`
     display: grid;
     grid-template-columns: minmax(10rem, 1fr) ${({columns}) => columns > 1 && "auto"};
-    grid-template-rows: minmax(12rem, 1fr) ${({rows}) => rows > 1 && "auto"}; 
+    grid-template-rows: minmax(12rem, 1fr) ${({rows}) => rows > 1 && "auto"};
     grid-column: auto / span ${({rows, columns}) => (rows + columns) > 2 ? 2 : columns};
     grid-row: auto / span ${({rows, columns}) => (rows + columns) > 2 ? 2 : rows};
     @media screen and (min-width: 55rem) {
@@ -130,7 +131,7 @@ function TileImage({children, ...props}) {
 
         return null;
     }
-    
+
     return (
         <BaseTileImage {...props}>
             <LinkWrapper>
@@ -152,20 +153,36 @@ function createTileBySize(columns, rows) {
 
         return (
             <BaseTile rows={rows} columns={columns} {...props}>
-                <TileImage
-                    {...props}
-                    rows={"tall" in props ? rows : 1}
-                    columns={"wide" in props ? columns : 1}
-                    tall={props.tall || columns > rows}
-                    wide={props.wide || rows > columns}
-                />
-                <Content 
+                { props.header && (
+                    <TileImage
+                        {...props}
+                        rows={"tall" in props ? rows : 1}
+                        columns={"wide" in props ? columns : 1}
+                        tall={props.tall || columns > rows}
+                        wide={props.wide || rows > columns}
+                    />
+                )}
+                <Content
                     rows={"tall" in props ? rows : 1}
                     columns={"wide" in props ? columns : 1}
                 />
             </BaseTile>
         );
     }
+}
+
+
+export function AnimationTile(props) {
+    return (
+        <BaseTile rows={2} columns={2} style={{
+            backgroundColor: '#151e29',
+            padding: '1rem 0'
+        }}>
+            <GifPlayer gif={props.image} style={{
+                maxWidth: '100%'
+            }} />
+        </BaseTile>
+    )
 }
 
 function getImageFromProps(props) {
@@ -193,8 +210,9 @@ function getColorFromProps(props) {
     if ("blue" in props) return Theme.Colors.Blue;
     if ("purple" in props) return Theme.Colors.Purple;
     if ("black" in props) return Theme.Shades.Darkest;
+    if ("white" in props) return Theme.Shades.White;
 
-    return "#ffffff";
+    return "transparent";
 }
 
 function getGradientFromProps(props) {
