@@ -132,13 +132,13 @@ function TileImage({children, ...props}) {
         return null;
     }
 
-    return (
+    return ("imageText" in props) ? (
         <BaseTileImage {...props}>
             <LinkWrapper>
                 <Text />
             </LinkWrapper>
         </BaseTileImage>
-    )
+    ) : <BaseTileImage {...props} />
 }
 
 function createTileBySize(columns, rows) {
@@ -178,9 +178,9 @@ export function AnimationTile(props) {
             backgroundColor: '#151e29',
             padding: '1rem 0'
         }}>
-            <GifPlayer gif={props.image} style={{
-                maxWidth: '100%'
-            }} />
+            <video playsinline controls style={{maxWidth: '100%'}}>
+                <source src={props.image} type="video/webm" />
+            </video>
         </BaseTile>
     )
 }
