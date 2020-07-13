@@ -176,11 +176,19 @@ export function AnimationTile(props) {
     return (
         <BaseTile rows={2} columns={2} style={{
             backgroundColor: '#151e29',
-            padding: '1rem 0'
+            padding: '0'
         }}>
-            <video playsinline controls style={{maxWidth: '100%'}}>
-                <source src={props.image} type="video/webm" />
-            </video>
+            <div style={{
+                gridColumn: 'auto / span 2',
+                gridRow: 'auto / span 1'
+            }}>
+                <video playsinline controls style={{maxWidth: '100%'}}>
+                    <source src={props.image} type="video/webm" />
+                </video>
+            </div>
+            { props.children && (
+                <TileContent rows={2} columns={2}>{props.children}</TileContent>
+            )}
         </BaseTile>
     )
 }
